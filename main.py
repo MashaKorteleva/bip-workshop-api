@@ -1,6 +1,6 @@
 """
-She Builds Products — Workshop API
-A tiny food-delivery API used as the hands-on sandbox.
+Build Internal Products — Workshop API
+A tiny taco-delivery API used as the hands-on sandbox.
 
 Swagger playground is auto-generated at  /docs
 """
@@ -15,14 +15,14 @@ from copy import deepcopy
 # CONFIG
 # ----------------------------------------------------------------------------
 
-API_KEY = "sbp-workshop-2026"          # <- the key you put on the slide
+API_KEY = "extra-guac"                  # <- the key you put on the slide
 PROTECTED_ID_LIMIT = 100                # seeded orders (id <= 100) can't be changed/deleted
 NEXT_NEW_ID = 1000                      # orders created by attendees start here
 
 app = FastAPI(
-    title="She Builds Products — Food Delivery API",
+    title="Build Internal Products — Taco Delivery API",
     description=(
-        "A small, friendly API to practise on.\n\n"
+        "A small, friendly API to practise on. It delivers tacos.\n\n"
         "**How to use this page**\n\n"
         "1. Click the green **Authorize** button, top right.\n"
         "2. Paste the API key you were given, and click Authorize.\n"
@@ -79,9 +79,9 @@ class Order(BaseModel):
 
 class NewOrder(BaseModel):
     customer: str = Field(..., examples=["Masha"])
-    restaurant: str = Field(..., examples=["Pizza Napoli"])
+    restaurant: str = Field(..., examples=["Taqueria Sol"])
     city: City = Field(..., examples=["frankfurt"])
-    items: list[str] = Field(..., examples=[["Margherita", "Tiramisu"]])
+    items: list[str] = Field(..., examples=[["Al pastor x3", "Extra guac"]])
     total_eur: float = Field(..., examples=[18.50])
 
 
@@ -112,30 +112,30 @@ class Restaurant(BaseModel):
 
 SEED_ORDERS: list[dict] = [
     # --- FRANKFURT (8) ---
-    {"id": 1,  "customer": "Anna",    "restaurant": "Pizza Napoli",   "city": "frankfurt", "items": ["Margherita", "Coke"],          "total_eur": 14.50, "status": "delivered",  "driver_id": 87},
-    {"id": 2,  "customer": "Ben",     "restaurant": "Sushi Zen",      "city": "frankfurt", "items": ["Salmon set"],                  "total_eur": 22.00, "status": "delivered",  "driver_id": 87},
-    {"id": 3,  "customer": "Clara",   "restaurant": "Curry Haus",     "city": "frankfurt", "items": ["Butter chicken", "Naan"],      "total_eur": 19.90, "status": "on_the_way", "driver_id": 88},
-    {"id": 4,  "customer": "Dmitri",  "restaurant": "Pizza Napoli",   "city": "frankfurt", "items": ["Quattro Formaggi"],            "total_eur": 16.00, "status": "on_the_way", "driver_id": 87},
-    {"id": 5,  "customer": "Elena",   "restaurant": "Green Bowl",     "city": "frankfurt", "items": ["Falafel bowl"],                "total_eur": 11.50, "status": "preparing",  "driver_id": None},
-    {"id": 6,  "customer": "Farid",   "restaurant": "Sushi Zen",      "city": "frankfurt", "items": ["Tuna nigiri", "Miso soup"],    "total_eur": 27.40, "status": "delivered",  "driver_id": 88},
-    {"id": 7,  "customer": "Greta",   "restaurant": "Curry Haus",     "city": "frankfurt", "items": ["Vegetable korma"],             "total_eur": 15.00, "status": "cancelled",  "driver_id": None},
-    {"id": 8,  "customer": "Hugo",    "restaurant": "Green Bowl",     "city": "frankfurt", "items": ["Poke bowl", "Matcha"],         "total_eur": 18.20, "status": "delivered",  "driver_id": 87},
+    {"id": 1,  "customer": "Anna",    "restaurant": "Taqueria Sol",   "city": "frankfurt", "items": ["Al pastor x3", "Horchata"],          "total_eur": 14.50, "status": "delivered",  "driver_id": 87},
+    {"id": 2,  "customer": "Ben",     "restaurant": "El Pastor",      "city": "frankfurt", "items": ["Carnitas x4"],                  "total_eur": 22.00, "status": "delivered",  "driver_id": 87},
+    {"id": 3,  "customer": "Clara",   "restaurant": "Casa Guac",     "city": "frankfurt", "items": ["Barbacoa x3", "Elote"],      "total_eur": 19.90, "status": "on_the_way", "driver_id": 88},
+    {"id": 4,  "customer": "Dmitri",  "restaurant": "Taqueria Sol",   "city": "frankfurt", "items": ["Birria x4"],            "total_eur": 16.00, "status": "on_the_way", "driver_id": 87},
+    {"id": 5,  "customer": "Elena",   "restaurant": "Verde Taqueria",     "city": "frankfurt", "items": ["Jackfruit tacos x3"],                "total_eur": 11.50, "status": "preparing",  "driver_id": None},
+    {"id": 6,  "customer": "Farid",   "restaurant": "El Pastor",      "city": "frankfurt", "items": ["Pescado x4", "Guacamole"],    "total_eur": 27.40, "status": "delivered",  "driver_id": 88},
+    {"id": 7,  "customer": "Greta",   "restaurant": "Casa Guac",     "city": "frankfurt", "items": ["Nopales x3"],             "total_eur": 15.00, "status": "cancelled",  "driver_id": None},
+    {"id": 8,  "customer": "Hugo",    "restaurant": "Verde Taqueria",     "city": "frankfurt", "items": ["Cauliflower tacos x3", "Agua fresca"],         "total_eur": 18.20, "status": "delivered",  "driver_id": 87},
 
     # --- BERLIN (7) ---
-    {"id": 9,  "customer": "Ines",    "restaurant": "Doner Palace",   "city": "berlin",    "items": ["Doner", "Ayran"],              "total_eur": 9.50,  "status": "delivered",  "driver_id": 91},
-    {"id": 10, "customer": "Jonas",   "restaurant": "Pho Corner",     "city": "berlin",    "items": ["Pho bo"],                      "total_eur": 13.00, "status": "on_the_way", "driver_id": 91},
-    {"id": 11, "customer": "Kata",    "restaurant": "Burger Bros",    "city": "berlin",    "items": ["Cheeseburger", "Fries"],       "total_eur": 16.80, "status": "preparing",  "driver_id": None},
-    {"id": 12, "customer": "Lukas",   "restaurant": "Doner Palace",   "city": "berlin",    "items": ["Halloumi wrap"],               "total_eur": 8.90,  "status": "delivered",  "driver_id": 92},
-    {"id": 13, "customer": "Mira",    "restaurant": "Pho Corner",     "city": "berlin",    "items": ["Summer rolls", "Bun cha"],     "total_eur": 21.30, "status": "on_the_way", "driver_id": 92},
-    {"id": 14, "customer": "Noah",    "restaurant": "Burger Bros",    "city": "berlin",    "items": ["Double bacon"],                "total_eur": 19.00, "status": "preparing",  "driver_id": None},
-    {"id": 15, "customer": "Olga",    "restaurant": "Burger Bros",    "city": "berlin",    "items": ["Veggie burger"],               "total_eur": 14.00, "status": "cancelled",  "driver_id": None},
+    {"id": 9,  "customer": "Ines",    "restaurant": "Taco Palace",   "city": "berlin",    "items": ["Suadero x2", "Jarritos"],              "total_eur": 9.50,  "status": "delivered",  "driver_id": 91},
+    {"id": 10, "customer": "Jonas",   "restaurant": "La Frontera",     "city": "berlin",    "items": ["Lengua x3"],                      "total_eur": 13.00, "status": "on_the_way", "driver_id": 91},
+    {"id": 11, "customer": "Kata",    "restaurant": "Burrito Bros",    "city": "berlin",    "items": ["Crunchy beef x4", "Nachos"],       "total_eur": 16.80, "status": "preparing",  "driver_id": None},
+    {"id": 12, "customer": "Lukas",   "restaurant": "Taco Palace",   "city": "berlin",    "items": ["Queso taco x2"],               "total_eur": 8.90,  "status": "delivered",  "driver_id": 92},
+    {"id": 13, "customer": "Mira",    "restaurant": "La Frontera",     "city": "berlin",    "items": ["Chorizo x3", "Churros"],     "total_eur": 21.30, "status": "on_the_way", "driver_id": 92},
+    {"id": 14, "customer": "Noah",    "restaurant": "Burrito Bros",    "city": "berlin",    "items": ["Brisket taco x4"],                "total_eur": 19.00, "status": "preparing",  "driver_id": None},
+    {"id": 15, "customer": "Olga",    "restaurant": "Burrito Bros",    "city": "berlin",    "items": ["Black bean taco x3"],               "total_eur": 14.00, "status": "cancelled",  "driver_id": None},
 
     # --- MUNICH (5) ---
-    {"id": 16, "customer": "Pia",     "restaurant": "Brezel Bar",     "city": "munich",    "items": ["Pretzel", "Weissbier"],        "total_eur": 12.00, "status": "delivered",  "driver_id": 95},
-    {"id": 17, "customer": "Quinn",   "restaurant": "Taco Loco",      "city": "munich",    "items": ["Tacos al pastor"],             "total_eur": 17.50, "status": "on_the_way", "driver_id": 95},
-    {"id": 18, "customer": "Rosa",    "restaurant": "Brezel Bar",     "city": "munich",    "items": ["Obatzda", "Pretzel"],          "total_eur": 13.60, "status": "delivered",  "driver_id": 96},
-    {"id": 19, "customer": "Samir",   "restaurant": "Taco Loco",      "city": "munich",    "items": ["Burrito", "Guacamole"],        "total_eur": 20.10, "status": "preparing",  "driver_id": None},
-    {"id": 20, "customer": "Tessa",   "restaurant": "Noodle House",   "city": "munich",    "items": ["Pad thai"],                    "total_eur": 15.40, "status": "delivered",  "driver_id": 96},
+    {"id": 16, "customer": "Pia",     "restaurant": "Bavaria Tacos",     "city": "munich",    "items": ["Pretzel taco x2", "Michelada"],        "total_eur": 12.00, "status": "delivered",  "driver_id": 95},
+    {"id": 17, "customer": "Quinn",   "restaurant": "Taco Loco",      "city": "munich",    "items": ["Al pastor x5"],             "total_eur": 17.50, "status": "on_the_way", "driver_id": 95},
+    {"id": 18, "customer": "Rosa",    "restaurant": "Bavaria Tacos",     "city": "munich",    "items": ["Cheese taco x3", "Salsa verde"],          "total_eur": 13.60, "status": "delivered",  "driver_id": 96},
+    {"id": 19, "customer": "Samir",   "restaurant": "Taco Loco",      "city": "munich",    "items": ["Burrito", "Extra guac"],        "total_eur": 20.10, "status": "preparing",  "driver_id": None},
+    {"id": 20, "customer": "Tessa",   "restaurant": "Nacho House",   "city": "munich",    "items": ["Nacho platter"],                    "total_eur": 15.40, "status": "delivered",  "driver_id": 96},
 ]
 
 SEED_DRIVERS: list[dict] = [
@@ -148,16 +148,16 @@ SEED_DRIVERS: list[dict] = [
 ]
 
 SEED_RESTAURANTS: list[dict] = [
-    {"id": 1, "name": "Pizza Napoli",  "city": "frankfurt", "cuisine": "italian",   "open_now": True},
-    {"id": 2, "name": "Sushi Zen",     "city": "frankfurt", "cuisine": "japanese",  "open_now": True},
-    {"id": 3, "name": "Curry Haus",    "city": "frankfurt", "cuisine": "indian",    "open_now": False},
-    {"id": 4, "name": "Green Bowl",    "city": "frankfurt", "cuisine": "healthy",   "open_now": True},
-    {"id": 5, "name": "Doner Palace",  "city": "berlin",    "cuisine": "turkish",   "open_now": True},
-    {"id": 6, "name": "Pho Corner",    "city": "berlin",    "cuisine": "vietnamese","open_now": True},
-    {"id": 7, "name": "Burger Bros",   "city": "berlin",    "cuisine": "american",  "open_now": False},
-    {"id": 8, "name": "Brezel Bar",    "city": "munich",    "cuisine": "german",    "open_now": True},
+    {"id": 1, "name": "Taqueria Sol",  "city": "frankfurt", "cuisine": "mexican",   "open_now": True},
+    {"id": 2, "name": "El Pastor",     "city": "frankfurt", "cuisine": "mexican",  "open_now": True},
+    {"id": 3, "name": "Casa Guac",    "city": "frankfurt", "cuisine": "mexican",    "open_now": False},
+    {"id": 4, "name": "Verde Taqueria",    "city": "frankfurt", "cuisine": "vegan",   "open_now": True},
+    {"id": 5, "name": "Taco Palace",  "city": "berlin",    "cuisine": "mexican",   "open_now": True},
+    {"id": 6, "name": "La Frontera",    "city": "berlin",    "cuisine": "mexican","open_now": True},
+    {"id": 7, "name": "Burrito Bros",   "city": "berlin",    "cuisine": "tex-mex",  "open_now": False},
+    {"id": 8, "name": "Bavaria Tacos",    "city": "munich",    "cuisine": "tex-mex",    "open_now": True},
     {"id": 9, "name": "Taco Loco",     "city": "munich",    "cuisine": "mexican",   "open_now": True},
-    {"id": 10,"name": "Noodle House",  "city": "munich",    "cuisine": "thai",      "open_now": True},
+    {"id": 10,"name": "Nacho House",  "city": "munich",    "cuisine": "tex-mex",      "open_now": True},
 ]
 
 # live, mutable state
@@ -272,7 +272,7 @@ def delete_order(order_id: int, _key: str = Security(check_key)):
 @app.get("/drivers/{driver_id}", response_model=Driver, tags=["Drivers"],
          summary="Where is the driver?")
 def get_driver(driver_id: int, _key: str = Security(check_key)):
-    """This is the dot on the map. Try driver `87` — he's the one on the scooter."""
+    """This is the dot on the map. Try driver `87` — he's the one on the scooter with your tacos."""
     for d in SEED_DRIVERS:
         if d["id"] == driver_id:
             return d
